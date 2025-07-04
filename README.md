@@ -12,7 +12,7 @@
 | <a href="#" style="text-decoration:none; color:blue;">Busenur Şahin</a> | Scrum Master |
 | <a href="#" style="text-decoration:none; color:blue;">Mehmet Can Derebağı</a> | Product Owner |
 | <a href="#" style="text-decoration:none; color:blue;">Mehmet Halit Barut</a> | Developer |
-| <a href="#" style="text-decoration:none; color:blue;">Ceren Aktaş</a> | Developer |
+| <a href="#" style="text-decoration:none; color:blue;">Ceren Yaşar</a> | Developer |
 | <a href="#" style="text-decoration:none; color:blue;">Sena Arslan</a> | Developer |
 
 
