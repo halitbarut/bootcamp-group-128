@@ -61,3 +61,88 @@ def create_exam(db: Session, exam: models.Exam, user_id: int) -> models.Exam:
     db.refresh(db_exam)
     return db_exam
 
+# Üniversite CRUD
+def get_universities(db: Session) -> list[models.University]:
+    return db.query(models.University).all()
+
+def get_university_by_id(db: Session, university_id: int) -> models.University | None:
+    return db.query(models.University).filter(models.University.id == university_id).first()
+
+def create_university(db: Session, name: str) -> models.University:
+    db_university = models.University(name=name)
+    db.add(db_university)
+    db.commit()
+    db.refresh(db_university)
+    return db_university
+
+def delete_university(db: Session, university_id: int) -> None:
+    db_university = get_university_by_id(db, university_id)
+    if not db_university:
+        return None
+    db.delete(db_university)
+    db.commit()
+
+# Bölüm CRUD
+def get_departments_by_university(db: Session, university_id: int) -> list[models.Department]:
+    return db.query(models.Department).filter(models.Department.university_id == university_id).all()
+
+def get_department_by_id(db: Session, department_id: int) -> models.Department | None:
+    return db.query(models.Department).filter(models.Department.id == department_id).first()
+
+def create_department(db: Session, name: str, university_id: int) -> models.Department:
+    db_department = models.Department(name=name, university_id=university_id)
+    db.add(db_department)
+    db.commit()
+    db.refresh(db_department)
+    return db_department
+
+def delete_department(db: Session, department_id: int) -> None:
+    db_department = get_department_by_id(db, department_id)
+    if not db_department:
+        return None
+    db.delete(db_department)
+    db.commit()
+
+# Sınıf seviyesi CRUD
+def get_classes_by_department(db: Session, department_id: int) -> list[models.ClassLevel]:
+    return db.query(models.ClassLevel).filter(models.ClassLevel.department_id == department_id).all()
+
+def get_class_by_id(db: Session, class_id: int) -> models.ClassLevel | None:
+    return db.query(models.ClassLevel).filter(models.ClassLevel.id == class_id).first()
+
+def create_class_level(db: Session, level: int, department_id: int) -> models.ClassLevel:
+    db_class = models.ClassLevel(level=level, department_id=department_id)
+    db.add(db_class)
+    db.commit()
+    db.refresh(db_class)
+    return db_class
+
+def delete_class_level(db: Session, class_id: int) -> None:
+    db_class = get_class_by_id(db, class_id)
+    if not db_class:
+        return None
+    db.delete(db_class)
+    db.commit()
+
+# Soru CRUD
+def get_questions_by_exam(db: Session, exam_id: int) -> list[models.Question]:
+    return db.query(models.Question).filter(models.Question.exam_id == exam_id).all()
+
+def create_question(db: Session, exam_id: int, question_text: str, answer: str, options: str | None = None) -> models.Question:
+    db_question = models.Question(
+        exam_id=exam_id,
+        question_text=question_text,
+        answer=answer,
+        options=options
+    )
+    db.add(db_question)
+    db.commit()
+    db.refresh(db_question)
+    return db_question
+
+def delete_question(db: Session, question_id: int) -> None:
+    db_question = db.query(models.Question).filter(models.Question.id == question_id).first()
+    if not db_question:
+        return None
+    db.delete(db_question)
+    db.commit()
