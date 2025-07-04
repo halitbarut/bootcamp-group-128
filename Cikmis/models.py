@@ -27,3 +27,30 @@ class Question(Base):
     answer = Column(String, index=True)
     options = Column(String)
     exam = relationship("Exam", back_populates="questions")
+
+    # endpoint'ler için eklenen modeller 
+class University(Base):
+    __tablename__ = "universities"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, nullable=False)
+
+    departments = relationship("Department", back_populates="university")
+
+
+class Department(Base):
+    __tablename__ = "departments"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    university_id = Column(Integer, ForeignKey("universities.id"))
+
+    university = relationship("University", back_populates="departments")
+    class_levels = relationship("ClassLevel", back_populates="department")
+
+
+class ClassLevel(Base):
+    __tablename__ = "class_levels"
+    id = Column(Integer, primary_key=True, index=True)
+    level = Column(Integer, nullable=False)
+    department_id = Column(Integer, ForeignKey("departments.id"))
+
+    department = relationship("Department", back_populates="class_levels")
