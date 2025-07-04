@@ -50,3 +50,27 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+ # Endpoint'lere özel ek şemalar 
+class University(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        orm_mode = True
+
+class Department(BaseModel):
+    id: int
+    name: str
+    university_id: int
+
+    class Config:
+        orm_mode = True
+
+class ClassLevel(BaseModel):
+    id: int
+    level: int
+    department_id: int
+
+    class Config:
+        orm_mode = True
