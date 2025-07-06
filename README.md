@@ -142,8 +142,6 @@ The project is organized into the following directories and files:
   * `GET /exams/`: Get a list of exams based on filters (university, department, class, year, semester).
   * `GET /exams/{exam_id}/questions`: Get a list of questions for a specific exam.
 
-## 🏁 Getting Started
-
 ### Prerequisites
 
   * Python 3.8+
@@ -151,28 +149,6 @@ The project is organized into the following directories and files:
   * Uvicorn
   * SQLAlchemy
   * and other packages listed in `requirements.txt`.
-
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <your-repository-url>
-    ```
-2.  **Navigate to the project directory:**
-    ```bash
-    cd <project-directory>
-    ```
-3.  **Install the dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-### Running the Application
-
-1.  **Start the development server:**
-    ```bash
-    uvicorn main:app --reload
-    ```
 
 ## 🗂️ Project Management
 
