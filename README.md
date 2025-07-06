@@ -173,9 +173,6 @@ The project is organized into the following directories and files:
     ```bash
     uvicorn main:app --reload
     ```
-2.  **Access the API documentation:**
-      * **Swagger UI**: [http://127.0.0.1:8000/docs](https://www.google.com/search?q=http://127.0.0.1:8000/docs)
-      * **ReDoc**: [http://127.0.0.1:8000/redoc](https://www.google.com/search?q=http://127.0.0.1:8000/redoc)
 
 ## 🗂️ Project Management
 
@@ -191,7 +188,7 @@ The project is organized into the following directories and files:
 
   * **Expected Point Completion**: 150 points
   * **Point Completion Logic**: The first sprint has a target of 150 points. Subsequent sprints will adjust based on the team's velocity and project needs.
-  * **Product Backlog URL**: [Click for Backlog (Trello)](https://trello.com)
+  * **Product Backlog : Trello
 
 ### Sprint Review:
 
