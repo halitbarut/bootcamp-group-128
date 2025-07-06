@@ -150,7 +150,7 @@ Our project directly targets **university students**:
   * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
 
 - **Sprint Review Participants:**
-  * Busenur Şahin, Mehmet Can Derebağı, Mehmet Halit Barut, Ceren Aktaş, Sena Arslan
+  * Busenur Şahin, Mehmet Can Derebağı, Mehmet Halit Barut, Ceren Yaşar, Sena Arslan
 
 - **Sprint Retrospective:**
   * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
