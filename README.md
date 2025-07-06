@@ -183,9 +183,9 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 
   •	**Sprint 1:** 200 points
 	•	**Sprint 2:** 100 points
-	•	Sprint 3:** 200 points
+	•	**Sprint 3:** 200 points
 
-  * **Product Backlog : Trello
+  * **Product Backlog :** Trello
 
 ### Sprint Review:
 
