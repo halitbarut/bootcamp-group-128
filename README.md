@@ -178,12 +178,12 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 	•	Measure team velocity
 	•	Identify potential over/underestimations
 	•	Adjust future sprint goals accordingly
-  
+
   * **Point Completion Logic**: The first sprint has a target of 150 points. Subsequent sprints will adjust based on the team's velocity and project needs.
 
-  •	Sprint 1: 200 points
-	•	Sprint 2: 100 points
-	•	Sprint 3: 200 points
+  •	**Sprint 1:** 200 points
+	•	**Sprint 2:** 100 points
+	•	Sprint 3:** 200 points
 
   * **Product Backlog : Trello
 
@@ -207,7 +207,7 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
     <summary><h2>App Screenshots</h2></summary>
 
    <!-- Sprint 1 sonunda üretilen UI tasarımları veya ilk ekran görüntüleri buraya eklenecektir. -->
-   <p>Sprint 1 tamamlandığında web platformu ekran görüntüleri bu alana eklenecektir.</p>
+   <p>---</p>
 
 </details>
 
