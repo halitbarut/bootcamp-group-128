@@ -181,8 +181,8 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 
   * **Point Completion Logic**: The first sprint has a target of 150 points. Subsequent sprints will adjust based on the team's velocity and project needs.
 
-  •	**Sprint 1:** 200 points
-	•	**Sprint 2:** 100 points
+  •	**Sprint 1:** 150 points
+	•	**Sprint 2:** 200 points
 	•	**Sprint 3:** 200 points
 
   * **Product Backlog :** Trello
