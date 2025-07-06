@@ -94,6 +94,9 @@ Our project directly targets **university students**:
 
 This project is a **FastAPI-based backend service** designed to provide a platform for accessing past university exam questions. It allows users to filter exams based on university, department, class level, year, and semester, and then view the questions for a selected exam.
 
+- **Sprint Review Participants:**
+  * Busenur Şahin, Mehmet Can Derebağı, Mehmet Halit Barut, Ceren Yaşar, Sena Arslan
+
 ## 🚀 Features
 
   * **User Authentication**: Secure user registration and login system.
@@ -162,8 +165,26 @@ The project is organized into the following directories and files:
 
 ### Sprint 1
 
-  * **Expected Point Completion**: 150 points
+  * **Expected Point Completion**: 
+
+In Sprint 1, the target was set as 150 story points. This estimation was based on the foundational tasks required to set up the project infrastructure, such as:
+	•	Setting up the FastAPI environment
+	•	Designing the initial database schema
+	•	Implementing basic authentication and authorization logic
+
+The complexity and time requirements of these tasks were considered during the estimation process.
+
+Upon the completion of Sprint 1, the actual completed story points will be evaluated. This will help us:
+	•	Measure team velocity
+	•	Identify potential over/underestimations
+	•	Adjust future sprint goals accordingly
+  
   * **Point Completion Logic**: The first sprint has a target of 150 points. Subsequent sprints will adjust based on the team's velocity and project needs.
+
+  •	Sprint 1: 200 points
+	•	Sprint 2: 100 points
+	•	Sprint 3: 200 points
+
   * **Product Backlog : Trello
 
 ### Sprint Review:
@@ -218,30 +239,6 @@ The project is organized into the following directories and files:
 </details>
 
 ---
-
-- **Sprint Notes:**
-   * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
- 
-- **Expected point completion within Sprint:**
-  * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
-
-- **Point Completion Logic:**
-  * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
-
-- **Daily Scrum:**
-  * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
-
-- **Product Backlog URL:**
-  * Proje yönetim aracınızın linkini buraya ekleyebilirsiniz.
-
-- **Sprint Review:**
-  * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
-
-- **Sprint Review Participants:**
-  * Busenur Şahin, Mehmet Can Derebağı, Mehmet Halit Barut, Ceren Yaşar, Sena Arslan
-
-- **Sprint Retrospective:**
-  * Sprint 1 tamamlandıktan sonra bu bölüm doldurulacaktır.
 
 </details>
 
