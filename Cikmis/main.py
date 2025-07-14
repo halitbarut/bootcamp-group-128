@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 
+import models
+from database import engine
 from routers import auth, exams
 
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Çıkmış Sınavlar API")
 
 app.include_router(auth.router)

@@ -14,7 +14,7 @@ class Question(QuestionBase):
     exam_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ExamBase(BaseModel):
     title: str
@@ -29,7 +29,7 @@ class Exam(ExamBase):
     questions: List[Question] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserBase(BaseModel):
     username: str
@@ -42,7 +42,7 @@ class User(UserBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
@@ -57,7 +57,7 @@ class University(BaseModel):
     name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Department(BaseModel):
     id: int
@@ -65,7 +65,7 @@ class Department(BaseModel):
     university_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ClassLevel(BaseModel):
     id: int
@@ -73,4 +73,4 @@ class ClassLevel(BaseModel):
     department_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
