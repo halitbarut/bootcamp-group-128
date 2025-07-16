@@ -205,38 +205,23 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 
 <details>
     <summary><h2>App Screenshots</h2></summary>
+<img width="1863" height="1045" alt="sprint1 app screenshot" src="https://github.com/user-attachments/assets/e6fe70b0-5fd8-4507-a0e1-1c9f8bfc4be0" />
 
-   <!-- Sprint 1 sonunda üretilen UI tasarımları veya ilk ekran görüntüleri buraya eklenecektir. -->
-   <p>---</p>
+<p>---</p>
 
 </details>
 
----
-  <details>
-    <summary><h2>App Map</h2></summary>
 
-   <!-- Sprint 1 sonunda oluşturulan platform akış şeması buraya eklenecektir. -->
-   <p>Platform akış haritası (App Map) bu alana eklenecektir.</p>
-   
-</details>
 
 ---
   <details>
     <summary><h2>Project Management</h2></summary>
     
-   <!-- Sprint 1 süresince kullanılan proje yönetim aracından (Asana, Jira vb.) alınan görseller buraya eklenecektir. -->
-   <p>Proje yönetim panosuna ait görseller bu alana eklenecektir.</p>
+<img width="874" height="760" alt="sprint1 Trello" src="https://github.com/user-attachments/assets/b06456c9-6421-48b4-8b77-9fa98eec05e0" />
+
    
 </details>
 
----
-  <details>
-    <summary><h2>Burndown Chart</h2></summary>
-
-   <!-- Sprint 1'e ait Burndown Chart grafiği buraya eklenecektir. -->
-   <p>Sprint 1 Burndown Chart grafiği bu alana eklenecektir.</p>
-    
-</details>
 
 ---
 
