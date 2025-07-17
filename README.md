@@ -217,7 +217,8 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
   <details>
     <summary><h2>Project Management</h2></summary>
     
-<img width="874" height="760" alt="sprint1 Trello" src="https://github.com/user-attachments/assets/b06456c9-6421-48b4-8b77-9fa98eec05e0" />
+<img width="1736" height="706" alt="resim" src="https://github.com/user-attachments/assets/82d5f3fb-95b4-49d7-aeef-e0d806c452ba" />
+
 
    
 </details>
