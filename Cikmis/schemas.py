@@ -74,3 +74,15 @@ class ClassLevel(BaseModel):
 
     class Config:
         from_attributes = True
+
+class GeminiOption(BaseModel):
+    options: str
+    text: str
+
+class GeminiQuestionResponse(BaseModel):
+    question: str
+    options: List[GeminiOption]
+    correct_ans: str
+
+class GenerateQuestionRequest(BaseModel):
+    original_question: str
