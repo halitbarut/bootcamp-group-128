@@ -86,3 +86,12 @@ class GeminiQuestionResponse(BaseModel):
 
 class GenerateQuestionRequest(BaseModel):
     original_question: str
+
+class ExplainQuestionRequest(BaseModel):
+    question: str
+    options: List[GeminiOption]
+    correct_answer: str
+    user_answer: Optional[str] = None
+
+class QuestionExplanationResponse(BaseModel):
+    explanation: str

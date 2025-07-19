@@ -9,7 +9,7 @@ import database
 import crud
 import schemas
 
-import google.generativeai as genai
+from services import ai_service
 
 router = APIRouter(
     prefix="/exams",
@@ -57,47 +57,16 @@ def get_questions_by_exam(exam_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No questions found for this exam.")
     return questions
 
-# Gemini entegrasyonu
+# 📌 Gemini ile Benzer Soru Oluşturma Endpoint'i
 @router.post("/generate-similar-question",
              response_model=schemas.GeminiQuestionResponse,
              summary="Benzer Soru Oluştur (Gemini)")
 def generate_similar_question(request: schemas.GenerateQuestionRequest):
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    return ai_service.generate_question_with_ai(request.original_question)
 
-    prompt = f"""
-    GÖREV: Aşağıdaki örnek soruya konu, format ve zorluk seviyesi olarak çok benzeyen yeni bir çoktan seçmeli soru oluştur.
-
-    ÖRNEK SORU:
-    "{request.original_question}"
-
-    KURALLAR:
-    1.  Cevabın SADECE ve SADECE bir JSON nesnesi olmalı.
-    2.  JSON dışında kesinlikle hiçbir metin (örneğin "Tabii ki, işte sorunuz:", "İşte JSON formatında soru:" gibi), açıklama veya markdown formatı (```json) ekleme.
-    3.  Oluşturulan JSON nesnesi, alan adları da dahil olmak üzere, aşağıdaki yapıya birebir uymalıdır:
-        {{
-          "question": "Oluşturulan yeni sorunun metni buraya gelecek.",
-          "options": [
-            {{"options": "A", "text": "A şıkkının metni"}},
-            {{"options": "B", "text": "B şıkkının metni"}},
-            {{"options": "C", "text": "C şıkkının metni"}},
-            {{"options": "D", "text": "D şıkkının metni"}}
-          ],
-          "correct_ans": "Doğru şıkkın harfi (örn: 'B')"
-        }}
-    """
-
-    try:
-        response = model.generate_content(prompt)
-        cleaned_text = response.text.strip().replace("```json", "").replace("```", "").strip()
-        question_data = json.loads(cleaned_text)
-
-        return schemas.GeminiQuestionResponse(**question_data)
-
-    except json.JSONDecodeError:
-        print("--- Gemini'den Geçersiz JSON Yanıtı ---")
-        print(f"Yanıt metni: {response.text}")
-        print("------------------------------------")
-        raise HTTPException(status_code=500, detail="Gemini API'den gelen yanıt JSON formatında değil.")
-    except Exception as e:
-        print(f"Gemini API çağrısında beklenmedik bir hata oluştu: {e}")
-        raise HTTPException(status_code=500, detail=f"Gemini API ile iletişimde bir hata oluştu: {str(e)}")
+# 📌 Bir Soruyu Açıklama Endpoint'i (Gemini)
+@router.post("/explain-question",
+             response_model=schemas.QuestionExplanationResponse,
+             summary="Soruyu Açıkla (Gemini)")
+def explain_question(request: schemas.ExplainQuestionRequest):
+    return ai_service.explain_question_with_ai(request)
