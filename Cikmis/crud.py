@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 import models
 import security
@@ -63,7 +63,7 @@ def create_exam(db: Session, exam: models.Exam, user_id: int) -> models.Exam:
 
 # Üniversite CRUD
 def get_universities(db: Session) -> list[models.University]:
-    return db.query(models.University).all()
+    return db.query(models.University).options(selectinload(models.University.departments)).all()
 
 def get_university_by_id(db: Session, university_id: int) -> models.University | None:
     return db.query(models.University).filter(models.University.id == university_id).first()
@@ -84,7 +84,7 @@ def delete_university(db: Session, university_id: int) -> None:
 
 # Bölüm CRUD
 def get_departments_by_university(db: Session, university_id: int) -> list[models.Department]:
-    return db.query(models.Department).filter(models.Department.university_id == university_id).all()
+    return db.query(models.Department).filter(models.Department.university_id == university_id).options(selectinload(models.Department.classLevels)).all()
 
 def get_department_by_id(db: Session, department_id: int) -> models.Department | None:
     return db.query(models.Department).filter(models.Department.id == department_id).first()

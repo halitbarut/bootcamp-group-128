@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, JSON
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -27,7 +27,7 @@ class Question(Base):
     exam_id = Column(Integer, ForeignKey("exams.id"))
     question_text = Column(String, index=True)
     answer = Column(String, index=True)
-    options = Column(String)
+    options = Column(JSON)
     exam = relationship("Exam", back_populates="questions")
 
     # endpoint'ler için eklenen modeller 

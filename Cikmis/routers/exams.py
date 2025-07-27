@@ -3,7 +3,7 @@ import json
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 import database
 import crud
@@ -37,14 +37,14 @@ def get_classes(department_id: int, db: Session = Depends(get_db)):
 # 📌 4. Belirli üniversite, bölüm, sınıf, yıl ve döneme göre sınavları getir
 @router.get("/", response_model=List[schemas.Exam])
 def get_filtered_exams(
-    university_id: int,
-    department_id: int,
-    class_level: int,
-    year: int,
-    semester: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    university_id: Optional[int] = None,
+    department_id: Optional[int] = None,
+    class_level: Optional[int] = None,
+    year: Optional[int] = None,
+    semester: Optional[int] = None,
 ):
-    exams = crud.get_exams_filtered(db, university_id, department_id, class_level, year, semester)
+    exams = crud.get_exams_filtered(db, university_id, department_id, class_level, year, semester) # get_exams_filtered fonksiyonunu yaz.
     if not exams:
         raise HTTPException(status_code=404, detail="No exams found for the selected filters.")
     return exams
