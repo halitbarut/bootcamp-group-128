@@ -146,3 +146,50 @@ def delete_question(db: Session, question_id: int) -> None:
         return None
     db.delete(db_question)
     db.commit()
+
+# New function to get exams filtered
+def get_exams_filtered(
+    db: Session,
+    university_id: int | None = None,
+    department_id: int | None = None,
+    class_level: int | None = None,
+    year: int | None = None,
+    semester: int | None = None,
+) -> list[models.Exam]:
+    query = db.query(models.Exam)
+
+    if university_id:
+        query = query.join(models.Question).join(models.ClassLevel).join(models.Department).join(models.University).filter(models.University.id == university_id)
+    if department_id:
+        query = query.join(models.Question).join(models.ClassLevel).join(models.Department).filter(models.Department.id == department_id)
+    if class_level:
+        query = query.join(models.Question).join(models.ClassLevel).filter(models.ClassLevel.level == class_level)
+    if year:
+        # Assuming `Exam` model has a 'year' column. If not, you'll need to add it or infer from elsewhere.
+        # For now, let's assume `Exam` has `year` and `semester` columns.
+        query = query.filter(models.Exam.year == year)
+    if semester:
+        # Assuming `Exam` model has a 'semester' column
+        query = query.filter(models.Exam.semester == semester)
+
+    return query.all()
+
+def create_questions_bulk(db: Session, exam_id: int, questions_data: list[QuestionCreate]) -> list[models.Question]:
+    db_questions = []
+    for q_data in questions_data:
+        options_json = q_data.options
+        if isinstance(options_json, list):
+            options_json = ";".join(options_json) # Convert list of options to a string for JSON column if needed
+
+        db_question = models.Question(
+            exam_id=exam_id,
+            question_text=q_data.question_text,
+            answer=q_data.answer,
+            options=options_json # Store as JSON or a delimited string
+        )
+        db_questions.append(db_question)
+        db.add(db_question)
+    db.commit()
+    for q in db_questions:
+        db.refresh(q)
+    return db_questions
