@@ -1,6 +1,9 @@
+# schemas.py
+
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
+# --- Question Schemas ---
 class QuestionBase(BaseModel):
     question_text: str
     answer: str
@@ -12,13 +15,19 @@ class QuestionCreate(QuestionBase):
 class Question(QuestionBase):
     id: int
     exam_id: int
-
     class Config:
         from_attributes = True
 
+# --- Exam Schemas ---
 class ExamBase(BaseModel):
     title: str
     description: Optional[str] = None
+    course_name: str
+    year: int
+    semester: str
+    university_id: Optional[int] = None
+    department_id: Optional[int] = None
+    class_level_id: Optional[int] = None
 
 class ExamCreate(ExamBase):
     questions: List[QuestionCreate] = []
@@ -27,23 +36,23 @@ class Exam(ExamBase):
     id: int
     user_id: int
     questions: List[Question] = []
-
     class Config:
         from_attributes = True
 
+# --- User Schemas ---
 class UserBase(BaseModel):
     username: str
-    email: str
+    email: EmailStr
 
 class UserCreate(UserBase):
     password: str
 
 class User(UserBase):
     id: int
-
     class Config:
         from_attributes = True
 
+# --- Token Schemas ---
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -51,30 +60,47 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: Optional[str] = None
 
- # Endpoint'lere özel ek şemalar 
-class University(BaseModel):
-    id: int
+# --- Academic Entity Schemas ---
+
+# University
+class UniversityBase(BaseModel):
     name: str
 
+class UniversityCreate(UniversityBase):
+    pass
+
+class University(UniversityBase):
+    id: int
     class Config:
         from_attributes = True
 
-class Department(BaseModel):
-    id: int
+# Department
+class DepartmentBase(BaseModel):
     name: str
     university_id: int
 
+class DepartmentCreate(DepartmentBase):
+    pass
+
+class Department(DepartmentBase):
+    id: int
     class Config:
         from_attributes = True
 
-class ClassLevel(BaseModel):
-    id: int
+# Class Level
+class ClassLevelBase(BaseModel):
     level: int
     department_id: int
 
+class ClassLevelCreate(ClassLevelBase):
+    pass
+
+class ClassLevel(ClassLevelBase):
+    id: int
     class Config:
         from_attributes = True
 
+# Diğer şemalarınız (Gemini vs.) burada kalabilir.
 class GeminiOption(BaseModel):
     options: str
     text: str
@@ -96,11 +122,10 @@ class ExplainQuestionRequest(BaseModel):
 class QuestionExplanationResponse(BaseModel):
     explanation: str
 
-    # New schema for uploading questions from text
 class QuestionUpload(BaseModel):
     question_text: str
     answer: str
-    options: Optional[List[str]] = None # Assuming options can be a list of strings for simplicity
+    options: Optional[List[str]] = None
 
 class QuestionsUploadRequest(BaseModel):
     exam_id: int
