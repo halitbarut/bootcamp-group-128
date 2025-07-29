@@ -5,6 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
+from starlette import status
+
 import database
 import crud
 import schemas
@@ -74,26 +76,28 @@ def explain_question(request: schemas.ExplainQuestionRequest):
 # 📌 Yeni: Text olarak soruları yükleme endpoint'i
 @router.post("/{exam_id}/upload-questions", status_code=status.HTTP_201_CREATED, response_model=List[schemas.Question])
 def upload_questions_to_exam(
-    exam_id: int,
-    questions_data: List[schemas.QuestionUpload], # Expecting a list of QuestionUpload
-    db: Session = Depends(get_db)
+        exam_id: int,
+        questions_data: List[schemas.QuestionUpload],
+        db: Session = Depends(get_db)
 ):
     exam = crud.get_exam_by_id(db, exam_id)
     if not exam:
         raise HTTPException(status_code=404, detail="Exam not found.")
 
-    # Convert QuestionUpload list to QuestionCreate list for crud function
     questions_to_create = []
     for q_data in questions_data:
-        # Convert list of options to a JSON string if your model stores it that way
-        options_json = json.dumps(q_data.options) if q_data.options else None
         questions_to_create.append(
             schemas.QuestionCreate(
                 question_text=q_data.question_text,
                 answer=q_data.answer,
-                options=options_json
+                options=q_data.options
             )
         )
-
     created_questions = crud.create_questions_bulk(db, exam_id, questions_to_create)
     return created_questions
+
+
+@router.post("/", response_model=schemas.Exam, status_code=status.HTTP_201_CREATED)
+def create_exam(exam: schemas.ExamCreate, db: Session = Depends(get_db)):
+    user_id = 1 # bu kısım elden geçirilecek. Şuan geçici olarak 1 olarak ayarlandı.
+    return crud.create_exam(db=db, exam=exam, user_id=user_id)
