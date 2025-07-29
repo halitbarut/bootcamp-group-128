@@ -7,7 +7,7 @@ from typing import List, Optional
 class QuestionBase(BaseModel):
     question_text: str
     answer: str
-    options: Optional[list] = None
+    options: Optional[List[str]] = None
 
 class QuestionCreate(QuestionBase):
     pass
