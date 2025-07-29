@@ -1,10 +1,10 @@
 # routers/exams.py
-import json
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
+<<<<<<< Updated upstream
 from starlette import status
 
 import database
@@ -12,38 +12,40 @@ import crud
 import schemas
 
 from services import ai_service
+=======
+import crud, schemas
+from database import get_db
+from routers.auth import get_current_active_user # Bu satırı kendi auth yapınıza göre düzenleyin
+>>>>>>> Stashed changes
 
 router = APIRouter(
     prefix="/exams",
     tags=["Exams"]
 )
 
-# Veritabanı bağlantısı
-get_db = database.get_db
+@router.post("/", response_model=schemas.Exam)
+def create_exam(
+    exam: schemas.ExamCreate, 
+    db: Session = Depends(get_db), 
+    current_user: schemas.User = Depends(get_current_active_user)
+):
+    """
+    Yeni bir sınav ve ona ait soruları oluşturur.
+    - title, course_name, year, semester zorunludur.
+    - university_id, department_id, class_level_id opsiyoneldir.
+    - questions listesi en az bir soru içermelidir (isteğe bağlı kural).
+    """
+    return crud.create_exam(db=db, exam=exam, user_id=current_user.id)
 
-# 📌 1. Üniversite listesini getir
-@router.get("/universities", response_model=List[schemas.University])
-def get_universities(db: Session = Depends(get_db)):
-    return crud.get_universities(db)
 
-# 📌 2. Seçilen üniversitenin bölümlerini getir
-@router.get("/universities/{university_id}/departments", response_model=List[schemas.Department])
-def get_departments(university_id: int, db: Session = Depends(get_db)):
-    return crud.get_departments_by_university(db, university_id)
-
-# 📌 3. Seçilen bölümün sınıflarını getir
-@router.get("/departments/{department_id}/classes", response_model=List[schemas.ClassLevel])
-def get_classes(department_id: int, db: Session = Depends(get_db)):
-    return crud.get_classes_by_department(db, department_id)
-
-# 📌 4. Belirli üniversite, bölüm, sınıf, yıl ve döneme göre sınavları getir
 @router.get("/", response_model=List[schemas.Exam])
-def get_filtered_exams(
-    db: Session = Depends(get_db),
+def search_exams(
     university_id: Optional[int] = None,
     department_id: Optional[int] = None,
-    class_level: Optional[int] = None,
+    class_level_id: Optional[int] = None,
+    course_name: Optional[str] = None,
     year: Optional[int] = None,
+<<<<<<< Updated upstream
     semester: Optional[int] = None,
 ):
     exams = crud.get_exams_filtered(db, university_id, department_id, class_level, year, semester) # get_exams_filtered fonksiyonunu yaz.
@@ -79,11 +81,27 @@ def upload_questions_to_exam(
         exam_id: int,
         questions_data: List[schemas.QuestionUpload],
         db: Session = Depends(get_db)
+=======
+    semester: Optional[str] = None,
+    db: Session = Depends(get_db)
+>>>>>>> Stashed changes
 ):
-    exam = crud.get_exam_by_id(db, exam_id)
-    if not exam:
-        raise HTTPException(status_code=404, detail="Exam not found.")
+    """
+    Belirtilen kriterlere göre sınavları filtreleyerek listeler.
+    Tüm parametreler opsiyoneldir.
+    """
+    exams = crud.get_exams_filtered(
+        db=db,
+        university_id=university_id,
+        department_id=department_id,
+        class_level_id=class_level_id,
+        course_name=course_name,
+        year=year,
+        semester=semester
+    )
+    return exams
 
+<<<<<<< Updated upstream
     questions_to_create = []
     for q_data in questions_data:
         questions_to_create.append(
@@ -101,3 +119,11 @@ def upload_questions_to_exam(
 def create_exam(exam: schemas.ExamCreate, db: Session = Depends(get_db)):
     user_id = 1 # bu kısım elden geçirilecek. Şuan geçici olarak 1 olarak ayarlandı.
     return crud.create_exam(db=db, exam=exam, user_id=user_id)
+=======
+@router.get("/{exam_id}", response_model=schemas.Exam)
+def read_exam(exam_id: int, db: Session = Depends(get_db)):
+    db_exam = crud.get_exam_by_id(db, exam_id=exam_id)
+    if db_exam is None:
+        raise HTTPException(status_code=404, detail="Exam not found")
+    return db_exam
+>>>>>>> Stashed changes
