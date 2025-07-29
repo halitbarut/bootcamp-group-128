@@ -70,3 +70,30 @@ def generate_similar_question(request: schemas.GenerateQuestionRequest):
              summary="Soruyu Açıkla (Gemini)")
 def explain_question(request: schemas.ExplainQuestionRequest):
     return ai_service.explain_question_with_ai(request)
+
+# 📌 Yeni: Text olarak soruları yükleme endpoint'i
+@router.post("/{exam_id}/upload-questions", status_code=status.HTTP_201_CREATED, response_model=List[schemas.Question])
+def upload_questions_to_exam(
+    exam_id: int,
+    questions_data: List[schemas.QuestionUpload], # Expecting a list of QuestionUpload
+    db: Session = Depends(get_db)
+):
+    exam = crud.get_exam_by_id(db, exam_id)
+    if not exam:
+        raise HTTPException(status_code=404, detail="Exam not found.")
+
+    # Convert QuestionUpload list to QuestionCreate list for crud function
+    questions_to_create = []
+    for q_data in questions_data:
+        # Convert list of options to a JSON string if your model stores it that way
+        options_json = json.dumps(q_data.options) if q_data.options else None
+        questions_to_create.append(
+            schemas.QuestionCreate(
+                question_text=q_data.question_text,
+                answer=q_data.answer,
+                options=options_json
+            )
+        )
+
+    created_questions = crud.create_questions_bulk(db, exam_id, questions_to_create)
+    return created_questions
