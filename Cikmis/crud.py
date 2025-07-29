@@ -135,7 +135,7 @@ def delete_university(db: Session, university_id: int) -> None:
 
 # Bölüm CRUD
 def get_departments_by_university(db: Session, university_id: int) -> list[models.Department]:
-    return db.query(models.Department).filter(models.Department.university_id == university_id).options(selectinload(models.Department.classLevels)).all()
+    return db.query(models.Department).filter(models.Department.university_id == university_id).options(selectinload(models.Department.class_levels)).all()
 
 def get_department_by_id(db: Session, department_id: int) -> models.Department | None:
     return db.query(models.Department).filter(models.Department.id == department_id).first()
