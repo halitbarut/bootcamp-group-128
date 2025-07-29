@@ -1,10 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Form
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
 import sys
 import os
 
+import config
+import crud
+import models
 import security
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -18,6 +23,7 @@ router = APIRouter(
     tags=["Authentication"]
 )
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
