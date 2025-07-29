@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import config
 import models
 from database import engine
-from routers import auth, exams
+from routers import auth, exams, academics
 import google.generativeai as genai
 
 models.Base.metadata.create_all(bind=engine)
@@ -27,6 +27,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(exams.router)
+app.include_router(academics.router)
 
 try:
     genai.configure(api_key=config.settings.api_key)
