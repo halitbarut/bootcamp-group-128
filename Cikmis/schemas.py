@@ -95,3 +95,13 @@ class ExplainQuestionRequest(BaseModel):
 
 class QuestionExplanationResponse(BaseModel):
     explanation: str
+
+    # New schema for uploading questions from text
+class QuestionUpload(BaseModel):
+    question_text: str
+    answer: str
+    options: Optional[List[str]] = None # Assuming options can be a list of strings for simplicity
+
+class QuestionsUploadRequest(BaseModel):
+    exam_id: int
+    questions: List[QuestionUpload]
