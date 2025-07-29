@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session, selectinload
 
 import models
+import schemas
 import security
-from schemas import UserCreate
+from schemas import UserCreate, QuestionCreate
 
 
 # kullanıcı CRUD işlemleri için gerekli fonksiyonlar (create_user, get_user_by_email, update_user, delete_user)
@@ -174,22 +175,23 @@ def get_exams_filtered(
 
     return query.all()
 
-def create_questions_bulk(db: Session, exam_id: int, questions_data: list[QuestionCreate]) -> list[models.Question]:
+
+def create_questions_bulk(db: Session, exam_id: int, questions_data: list[schemas.QuestionCreate]) -> list[
+    models.Question]:
     db_questions = []
     for q_data in questions_data:
-        options_json = q_data.options
-        if isinstance(options_json, list):
-            options_json = ";".join(options_json) # Convert list of options to a string for JSON column if needed
-
         db_question = models.Question(
             exam_id=exam_id,
             question_text=q_data.question_text,
             answer=q_data.answer,
-            options=options_json # Store as JSON or a delimited string
+            options=q_data.options
         )
         db_questions.append(db_question)
-        db.add(db_question)
+
+    db.add_all(db_questions)
     db.commit()
+
     for q in db_questions:
         db.refresh(q)
+
     return db_questions
