@@ -55,12 +55,61 @@ def get_all_exams(db: Session, skip: int = 0, limit: int = 100) -> list[models.E
 def get_exam_by_id(db: Session, exam_id: int) -> models.Exam | None:
     return db.query(models.Exam).filter(models.Exam.id == exam_id).first()
 
-def create_exam(db: Session, exam: models.Exam, user_id: int) -> models.Exam:
-    db_exam = models.Exam(**exam.model_dump(), user_id=user_id)
+def create_exam(db: Session, exam: schemas.ExamCreate, user_id: int) -> models.Exam:
+    # Sınav nesnesini oluştur
+    db_exam = models.Exam(
+        title=exam.title,
+        description=exam.description,
+        course_name=exam.course_name,
+        year=exam.year,
+        semester=exam.semester,
+        university_id=exam.university_id,
+        department_id=exam.department_id,
+        class_level_id=exam.class_level_id,
+        user_id=user_id
+    )
     db.add(db_exam)
-    db.commit()
+    db.commit() # Sınavı kaydet ki ID'si oluşsun
     db.refresh(db_exam)
+
+    # Soruları oluştur ve sınava bağla
+    for q_in in exam.questions:
+        db_question = models.Question(
+            **q_in.model_dump(),
+            exam_id=db_exam.id
+        )
+        db.add(db_question)
+    
+    db.commit() # Soruları kaydet
+    db.refresh(db_exam) # Sınavı sorularla birlikte yenile
     return db_exam
+
+def get_exams_filtered(
+    db: Session,
+    university_id: int | None = None,
+    department_id: int | None = None,
+    class_level_id: int | None = None, # ID üzerinden filtreleme daha doğru
+    course_name: str | None = None,
+    year: int | None = None,
+    semester: str | None = None,
+) -> list[models.Exam]:
+    query = db.query(models.Exam)
+
+    if university_id:
+        query = query.filter(models.Exam.university_id == university_id)
+    if department_id:
+        query = query.filter(models.Exam.department_id == department_id)
+    if class_level_id:
+        query = query.filter(models.Exam.class_level_id == class_level_id)
+    if course_name:
+        query = query.filter(models.Exam.course_name.ilike(f"%{course_name}%"))
+    if year:
+        query = query.filter(models.Exam.year == year)
+    if semester:
+        query = query.filter(models.Exam.semester == semester)
+
+    return query.all()
+
 
 # Üniversite CRUD
 def get_universities(db: Session) -> list[models.University]:
