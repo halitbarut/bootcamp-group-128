@@ -17,6 +17,7 @@ def create_user(db: Session, user: UserCreate) -> models.User:
     hashed_password = security.get_password_hash(user.password)
     db_user = models.User(
         email=user.email,
+        username=user.username,
         hashed_password=hashed_password
     )
     db.add(db_user)
@@ -196,33 +197,6 @@ def delete_question(db: Session, question_id: int) -> None:
         return None
     db.delete(db_question)
     db.commit()
-
-# New function to get exams filtered
-def get_exams_filtered(
-    db: Session,
-    university_id: int | None = None,
-    department_id: int | None = None,
-    class_level: int | None = None,
-    year: int | None = None,
-    semester: int | None = None,
-) -> list[models.Exam]:
-    query = db.query(models.Exam)
-
-    if university_id:
-        query = query.join(models.Question).join(models.ClassLevel).join(models.Department).join(models.University).filter(models.University.id == university_id)
-    if department_id:
-        query = query.join(models.Question).join(models.ClassLevel).join(models.Department).filter(models.Department.id == department_id)
-    if class_level:
-        query = query.join(models.Question).join(models.ClassLevel).filter(models.ClassLevel.level == class_level)
-    if year:
-        # Assuming `Exam` model has a 'year' column. If not, you'll need to add it or infer from elsewhere.
-        # For now, let's assume `Exam` has `year` and `semester` columns.
-        query = query.filter(models.Exam.year == year)
-    if semester:
-        # Assuming `Exam` model has a 'semester' column
-        query = query.filter(models.Exam.semester == semester)
-
-    return query.all()
 
 
 def create_questions_bulk(db: Session, exam_id: int, questions_data: list[schemas.QuestionCreate]) -> list[
