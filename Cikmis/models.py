@@ -16,8 +16,17 @@ class Exam(Base):
     __tablename__ = "exams"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
-    description = Column(String)
+    description = Column(String, nullable=True)
+    course_name = Column(String, index=True) # Eklendi
+    year = Column(Integer, index=True) # Eklendi
+    semester = Column(String, index=True) # Eklendi (Örn: "Güz", "Bahar")
+
+    # İlişkiler
     user_id = Column(Integer, ForeignKey("users.id"))
+    university_id = Column(Integer, ForeignKey("universities.id"), nullable=True)
+    department_id = Column(Integer, ForeignKey("departments.id"), nullable=True)
+    class_level_id = Column(Integer, ForeignKey("class_levels.id"), nullable=True)
+
     owner = relationship("User", back_populates="exams")
     questions = relationship("Question", back_populates="exam", cascade="all, delete-orphan")
 
