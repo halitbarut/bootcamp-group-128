@@ -9,8 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 import QuestionCard from '../components/QuestionCard';
 import SimilarQuestionModal from "../components/SimilarQuestionModal";
-
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 function ExamPage() {
     const { examId } = useParams();

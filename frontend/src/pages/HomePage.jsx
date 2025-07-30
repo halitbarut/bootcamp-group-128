@@ -6,8 +6,7 @@ import UniversityList from '../components/UniversityList';
 import DepartmentList from '../components/DepartmentList';
 import ClassLevelList from '../components/ClassLevelList';
 import ExamList from '../components/ExamList';
-
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 function HomePage() {
     const [universities, setUniversities] = useState([]);
