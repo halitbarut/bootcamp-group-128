@@ -15,6 +15,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://localhost:5173",
+    "https://cikmis-front.onrender.com",
 ]
 
 app.add_middleware(
