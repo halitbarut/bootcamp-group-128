@@ -1,6 +1,6 @@
 import google.generativeai as genai
 from fastapi import HTTPException
-
+import re
 import schemas
 from config import settings
 
@@ -78,7 +78,9 @@ def explain_question_with_ai(request: schemas.ExplainQuestionRequest) -> schemas
     """
     try:
         response = model.generate_content(prompt)
-        return schemas.QuestionExplanationResponse(explanation=response.text)
+        raw_explanation = response.text
+        cleaned_explanation = re.sub(r'[\*]', '', raw_explanation).strip()
+        return schemas.QuestionExplanationResponse(explanation=cleaned_explanation)
     except Exception as e:
         print(f"AI Açıklama Üretme Hatası: {e}")
         raise HTTPException(status_code=500, detail="Yapay zeka ile açıklama üretilirken bir hata oluştu.")

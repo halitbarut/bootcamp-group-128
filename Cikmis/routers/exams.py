@@ -35,7 +35,7 @@ def create_exam(
 def search_exams(
     university_id: Optional[int] = None,
     department_id: Optional[int] = None,
-    class_level_id: Optional[int] = None,
+    class_level: Optional[int] = None,
     course_name: Optional[str] = None,
     year: Optional[int] = None,
     semester: Optional[str] = None,
@@ -49,7 +49,7 @@ def search_exams(
         db=db,
         university_id=university_id,
         department_id=department_id,
-        class_level_id=class_level_id,
+        class_level=class_level,
         course_name=course_name,
         year=year,
         semester=semester

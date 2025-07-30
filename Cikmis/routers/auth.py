@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Form
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
@@ -10,6 +10,7 @@ import os
 import config
 import crud
 import models
+import schemas
 import security
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -48,7 +49,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     new_user = User(
         username=user.username, 
         email=user.email,
-        password=hashed_pw
+        hashed_password=hashed_pw
     )
     db.add(new_user)
     db.commit()
@@ -56,19 +57,22 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     return {"message": "Kayıt başarılı."}
 
 
-@router.post("/login", response_model=Token)  # response_model ekle
-def login(username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == username).first()
-    if not user or not security.verify_password(password, user.password):
+@router.post("/login", response_model=schemas.Token)
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = crud.authenticate_user(
+        db,
+        email=form_data.username,
+        password=form_data.password
+    )
+
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Kullanıcı adı veya şifre hatalı.",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = security.create_access_token(
-        data={"sub": user.username}  # "sub" (subject) standardı kullanılır
-    )
+    access_token = security.create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
