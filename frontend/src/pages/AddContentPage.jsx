@@ -2,23 +2,87 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
     Container, Stepper, Step, StepLabel, Box, Button, Typography, TextField,
-    Select, MenuItem, FormControl, InputLabel, CircularProgress, Alert, Paper
+    CircularProgress, Alert, Paper
 } from '@mui/material';
 
 import LoginForm from '../components/LoginForm';
+import AcademicUnitStep from '../components/AcademicUnitStep';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const steps = ['Akademik Birim Seç', 'Sınav Bilgilerini Gir', 'Soruları Yükle'];
 
+// Adım 2: Sınav Bilgileri Bileşeni (Güncellendi)
+const ExamInfoStep = ({ examData, setExamData }) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setExamData(prev => ({ ...prev, [name]: value }));
+    };
+
+    return (
+        <>
+            <Typography variant="h6" gutterBottom>Sınav Bilgileri</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Sınav adı, aşağıdaki alanlardan otomatik olarak oluşturulacaktır.
+            </Typography>
+
+            {/* "Sınav Başlığı" alanı kaldırıldı */}
+            <TextField name="course_name" label="Ders Adı" fullWidth margin="normal" value={examData.course_name} onChange={handleChange} required />
+            <TextField name="year" label="Yıl" type="number" fullWidth margin="normal" value={examData.year} onChange={handleChange} required />
+            <TextField name="semester" label="Dönem (Güz/Bahar)" fullWidth margin="normal" value={examData.semester} onChange={handleChange} required />
+
+            {/* "Açıklama" alanı kaldırıldı */}
+        </>
+    );
+};
+
+// Adım 3: Soru Yükleme Bileşeni (Değişiklik yok)
+const UploadQuestionsStep = ({ questions, setQuestions, status }) => {
+    return (
+        <>
+            <Typography variant="h6" gutterBottom>Soruları Yükle</Typography>
+            <Typography variant="body2" color="text.secondary">
+                Soruları aşağıdaki JSON formatında yapıştırın.
+            </Typography>
+            <TextField
+                label="Sorular (JSON Formatında)"
+                fullWidth
+                multiline
+                rows={15}
+                margin="normal"
+                value={questions}
+                onChange={(e) => setQuestions(e.target.value)}
+                placeholder={`[
+  {
+    "question_text": "Örnek soru metni?",
+    "answer": "Doğru cevap",
+    "options": ["Doğru cevap", "Yanlış cevap 1", "Yanlış cevap 2"]
+  }
+]`}
+            />
+            {status.error && <Alert severity="error" sx={{ mt: 2 }}>{status.error}</Alert>}
+            {status.success && <Alert severity="success" sx={{ mt: 2 }}>{status.success}</Alert>}
+        </>
+    );
+};
+
+// Ana Sayfa Bileşeni (Değişiklik var)
 function AddContentPage() {
     const [token, setToken] = useState(null);
     const [loginError, setLoginError] = useState('');
-
     const [activeStep, setActiveStep] = useState(0);
-    const [selections, setSelections] = useState({ universityId: '', departmentId: '', classLevelId: '' });
-    const [examData, setExamData] = useState({ title: '', description: '', course_name: '', year: new Date().getFullYear(), semester: '' });
+
+    const [academicData, setAcademicData] = useState({
+        selected: { university: null, department: null, classLevel: null },
+        input: { university: '', department: '', classLevel: '' }
+    });
+    const [finalIds, setFinalIds] = useState({ universityId: null, departmentId: null, classLevelId: null });
+
+    // "title" ve "description" başlangıç state'inden kaldırıldı
+    const [examData, setExamData] = useState({ course_name: '', year: new Date().getFullYear(), semester: '' });
     const [questions, setQuestions] = useState('');
-    const [createdExamId, setCreatedExamId] = useState(null);
+
+    const [loadingNext, setLoadingNext] = useState(false);
+    const [submissionStatus, setSubmissionStatus] = useState({ success: '', error: '' });
 
     const secureAxios = axios.create({ baseURL: API_URL });
     if (token) {
@@ -41,44 +105,103 @@ function AddContentPage() {
         }
     };
 
-    const handleNextAndCreateExam = async () => {
-        if (activeStep === 1) {
+    const handleNext = async () => {
+        setLoadingNext(true);
+
+        if (activeStep === 0) {
             try {
-                const examPayload = { ...examData, class_level_id: selections.classLevelId };
-                const response = await secureAxios.post(`/exams/`, examPayload);
-                setCreatedExamId(response.data.id);
-                setActiveStep((prev) => prev + 1);
+                let universityId = academicData.selected.university?.id;
+                if (!universityId && academicData.input.university) {
+                    const res = await secureAxios.post('/academics/universities', { name: academicData.input.university });
+                    universityId = res.data.id;
+                }
+
+                let departmentId = academicData.selected.department?.id;
+                if (!departmentId && academicData.input.department) {
+                    const res = await secureAxios.post('/academics/departments', { name: academicData.input.department, university_id: universityId });
+                    departmentId = res.data.id;
+                }
+
+                let classLevelId = academicData.selected.classLevel?.id;
+                if (!classLevelId && academicData.input.classLevel) {
+                    const res = await secureAxios.post('/academics/class-levels', { level: parseInt(academicData.input.classLevel), department_id: departmentId });
+                    classLevelId = res.data.id;
+                }
+
+                if (!classLevelId) {
+                    alert('Lütfen tüm akademik birimleri seçin veya yeni bir tane oluşturun.');
+                    setLoadingNext(false);
+                    return;
+                }
+
+                setFinalIds({ universityId, departmentId, classLevelId });
+                setActiveStep(1);
+
             } catch (err) {
-                alert('Sınav oluşturulurken hata oluştu: ' + (err.response?.data?.detail || err.message));
+                console.error(err);
+                alert('Birimler işlenirken bir hata oluştu: ' + (err.response?.data?.detail || err.message));
             }
-        } else {
-            setActiveStep((prev) => prev + 1);
+        } else if (activeStep === 1) {
+            setActiveStep(2);
         }
+
+        setLoadingNext(false);
     };
 
     const handleBack = () => setActiveStep((prev) => prev - 1);
 
+    // Yükleme mantığı güncellendi
     const handleSubmit = async () => {
+        setLoadingNext(true);
+        setSubmissionStatus({ success: '', error: '' });
         try {
+            // Adım 1: Yeni sınav başlığını oluştur
+            const newTitle = `${examData.course_name} ${examData.year} ${examData.semester}`;
+
+            // Adım 2: Sınavı bu yeni başlıkla oluştur
+            const examPayload = {
+                ...examData,
+                title: newTitle, // Otomatik oluşturulan başlığı kullan
+                description: '', // Açıklama alanı artık boş
+                class_level_id: finalIds.classLevelId
+            };
+            const examRes = await secureAxios.post('/exams/', examPayload);
+            const createdExamId = examRes.data.id;
+
+            // Adım 3: Soruları yükle
             const questionsPayload = JSON.parse(questions);
             if (!Array.isArray(questionsPayload)) throw new Error('Format hatalı, bir dizi (array) olmalı.');
             await secureAxios.post(`/exams/${createdExamId}/upload-questions`, questionsPayload);
+
+            setSubmissionStatus({ success: 'Sınav ve sorular başarıyla yüklendi!', error: '' });
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+
         } catch (err) {
             console.error(err);
-            throw err;
+            setSubmissionStatus({ success: '', error: err.response?.data?.detail || 'Yükleme sırasında bir hata oluştu. JSON formatını kontrol edin.' });
+        } finally {
+            setLoadingNext(false);
         }
     };
 
+    const isNextDisabled = () => {
+        if (activeStep === 0) {
+            return !academicData.selected.classLevel && !academicData.input.classLevel;
+        }
+        if (activeStep === 1) {
+            return !examData.course_name || !examData.year || !examData.semester;
+        }
+        return false;
+    }
+
     const getStepContent = (step) => {
         switch (step) {
-            case 0:
-                return <AcademicUnitStep selections={selections} setSelections={setSelections} handleNext={handleNextAndCreateExam} />;
-            case 1:
-                return <ExamInfoStep examData={examData} setExamData={setExamData} handleNext={handleNextAndCreateExam} handleBack={handleBack} />;
-            case 2:
-                return <UploadQuestionsStep questions={questions} setQuestions={setQuestions} handleBack={handleBack} handleSubmit={handleSubmit} />;
-            default:
-                throw new Error('Unknown step');
+            case 0: return <AcademicUnitStep academicData={academicData} setAcademicData={setAcademicData} />;
+            case 1: return <ExamInfoStep examData={examData} setExamData={setExamData} />;
+            case 2: return <UploadQuestionsStep questions={questions} setQuestions={setQuestions} status={submissionStatus} />;
+            default: throw new Error('Unknown step');
         }
     };
 
@@ -89,167 +212,31 @@ function AddContentPage() {
     return (
         <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                <Typography component="h1" variant="h4" align="center">
-                    Sisteme Yeni İçerik Ekle
-                </Typography>
+                <Typography component="h1" variant="h4" align="center">Sisteme Yeni İçerik Ekle</Typography>
                 <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                     {steps.map((label) => <Step key={label}><StepLabel>{label}</StepLabel></Step>)}
                 </Stepper>
 
-                {getStepContent(activeStep)}
+                <React.Fragment>
+                    {getStepContent(activeStep)}
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        {activeStep !== 0 && (
+                            <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }} disabled={loadingNext}>Geri</Button>
+                        )}
+                        {activeStep < steps.length - 1 ? (
+                            <Button variant="contained" onClick={handleNext} disabled={loadingNext || isNextDisabled()} sx={{ mt: 3, ml: 1 }}>
+                                {loadingNext ? <CircularProgress size={24} /> : 'İleri'}
+                            </Button>
+                        ) : (
+                            <Button variant="contained" onClick={handleSubmit} disabled={loadingNext || !questions} sx={{ mt: 3, ml: 1 }}>
+                                {loadingNext ? <CircularProgress size={24} /> : 'Yüklemeyi Tamamla'}
+                            </Button>
+                        )}
+                    </Box>
+                </React.Fragment>
             </Paper>
         </Container>
     );
 }
-
-const AcademicUnitStep = ({ selections, setSelections, handleNext }) => {
-    const [universities, setUniversities] = useState([]);
-    const [departments, setDepartments] = useState([]);
-    const [classLevels, setClassLevels] = useState([]);
-    const [loading, setLoading] = useState({ uni: true, dep: false, cls: false });
-
-    useEffect(() => {
-        axios.get(`${API_URL}/academics/universities`)
-            .then(res => setUniversities(res.data))
-            .catch(err => console.error(err))
-            .finally(() => setLoading(prev => ({ ...prev, uni: false })));
-    }, []);
-
-    useEffect(() => {
-        if (selections.universityId) {
-            setLoading(prev => ({ ...prev, dep: true }));
-            axios.get(`${API_URL}/academics/universities/${selections.universityId}/departments`)
-                .then(res => setDepartments(res.data))
-                .catch(err => { console.error(err); setDepartments([]); })
-                .finally(() => setLoading(prev => ({ ...prev, dep: false })));
-        }
-    }, [selections.universityId]);
-
-    useEffect(() => {
-        if (selections.departmentId) {
-            setLoading(prev => ({ ...prev, cls: true }));
-            axios.get(`${API_URL}/academics/departments/${selections.departmentId}/classes`)
-                .then(res => setClassLevels(res.data))
-                .catch(err => { console.error(err); setClassLevels([]); })
-                .finally(() => setLoading(prev => ({ ...prev, cls: false })));
-        }
-    }, [selections.departmentId]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'universityId') setSelections({ universityId: value, departmentId: '', classLevelId: '' });
-        else if (name === 'departmentId') setSelections(prev => ({ ...prev, departmentId: value, classLevelId: '' }));
-        else setSelections(prev => ({ ...prev, [name]: value }));
-    };
-
-    return (
-        <>
-            <Typography variant="h6" gutterBottom>Akademik Birim Seçimi</Typography>
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Üniversite</InputLabel>
-                <Select name="universityId" value={selections.universityId} label="Üniversite" onChange={handleChange}>
-                    {universities.map(u => <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>)}
-                </Select>
-            </FormControl>
-            {loading.dep && <CircularProgress size={24} />}
-            {selections.universityId && !loading.dep && (
-                <FormControl fullWidth margin="normal" disabled={departments.length === 0}>
-                    <InputLabel>Bölüm</InputLabel>
-                    <Select name="departmentId" value={selections.departmentId} label="Bölüm" onChange={handleChange}>
-                        {departments.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
-                    </Select>
-                </FormControl>
-            )}
-            {loading.cls && <CircularProgress size={24} />}
-            {selections.departmentId && !loading.cls && (
-                <FormControl fullWidth margin="normal" disabled={classLevels.length === 0}>
-                    <InputLabel>Sınıf Seviyesi</InputLabel>
-                    <Select name="classLevelId" value={selections.classLevelId} label="Sınıf Seviyesi" onChange={handleChange}>
-                        {classLevels.map(c => <MenuItem key={c.id} value={c.id}>{c.level}. Sınıf</MenuItem>)}
-                    </Select>
-                </FormControl>
-            )}
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button variant="contained" onClick={handleNext} disabled={!selections.classLevelId} sx={{ mt: 3, ml: 1 }}>
-                    İleri
-                </Button>
-            </Box>
-        </>
-    );
-};
-
-const ExamInfoStep = ({ examData, setExamData, handleNext, handleBack }) => {
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setExamData(prev => ({ ...prev, [name]: value }));
-    };
-
-    return (
-        <>
-            <Typography variant="h6" gutterBottom>Sınav Bilgileri</Typography>
-            <TextField name="title" label="Sınav Başlığı" fullWidth margin="normal" value={examData.title} onChange={handleChange} />
-            <TextField name="course_name" label="Ders Adı" fullWidth margin="normal" value={examData.course_name} onChange={handleChange} />
-            <TextField name="year" label="Yıl" type="number" fullWidth margin="normal" value={examData.year} onChange={handleChange} />
-            <TextField name="semester" label="Dönem (Güz/Bahar)" fullWidth margin="normal" value={examData.semester} onChange={handleChange} />
-            <TextField name="description" label="Açıklama" fullWidth margin="normal" multiline rows={2} value={examData.description} onChange={handleChange} />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>Geri</Button>
-                <Button variant="contained" onClick={handleNext} disabled={!examData.title || !examData.course_name} sx={{ mt: 3, ml: 1 }}>İleri</Button>
-            </Box>
-        </>
-    );
-};
-
-const UploadQuestionsStep = ({ questions, setQuestions, handleBack, handleSubmit }) => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-
-    const onSubmit = async () => {
-        setLoading(true);
-        setError('');
-        setSuccess('');
-        try {
-            await handleSubmit();
-            setSuccess('Sorular başarıyla yüklendi!');
-        } catch (err) {
-            setError(err.response?.data?.detail || 'Bir hata oluştu. JSON formatını kontrol edin.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <>
-            <Typography variant="h6" gutterBottom>Soruları Yükle</Typography>
-            <Typography variant="body2" color="text.secondary">
-                Soruları aşağıdaki JSON formatında yapıştırın. `question_text`, `answer` ve `options` alanları zorunludur.
-            </Typography>
-            <TextField
-                label="Sorular (JSON Formatında)"
-                fullWidth
-                multiline
-                rows={15}
-                margin="normal"
-                value={questions}
-                onChange={(e) => setQuestions(e.target.value)}
-                placeholder={`[
-  {
-    "question_text": "Örnek soru metni?",
-    "answer": "Doğru cevap",
-    "options": ["Doğru cevap", "Yanlış cevap 1", "Yanlış cevap 2"]
-  }
-]`}/>
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-            {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }} disabled={loading}>Geri</Button>
-                <Button variant="contained" onClick={onSubmit} disabled={!questions || loading} sx={{ mt: 3, ml: 1 }}>
-                    {loading ? <CircularProgress size={24} /> : 'Sınavı ve Soruları Yükle'}
-                </Button>
-            </Box>
-        </>
-    );
-};
 
 export default AddContentPage;
