@@ -241,8 +241,6 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 <details>
   <summary><h1>Sprint 2</h1></summary>
 
-
-
 -----
 
 ## Sprint 2: Academic Hierarchy and Advanced Filtering
@@ -315,8 +313,12 @@ At the end-of-sprint review meeting, the following features were presented to st
 -----
 
 ---
+
+</details>
+
+---
 <details>
-  <summary><h1>Sprint 2</h1></summary>
+  <summary><h1>Sprint 3</h1></summary>
 
 ## Sprint 3: AI (Gemini) Integration with Smart Question Features
 
