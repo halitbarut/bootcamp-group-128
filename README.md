@@ -243,73 +243,90 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 
 -----
 
-## Sprint 2: Academic Hierarchy and Advanced Filtering
+# 🚀 Sprint 2: Academic Hierarchy and Advanced Filtering
 
-### Sprint Notes
+## 📝 Sprint Notes
 
-The main goal of this sprint was to organize exams under an academic structure (University -\> Department -\> Class Level) and to enable users to perform detailed filtering based on these criteria. This was intended to help users find the exams they are looking for much more quickly and efficiently.
+The main goal of this sprint was to organize exams under an academic structure (**University → Department → Class Level**) and to enable users to perform detailed filtering based on these criteria. This was intended to help users find the exams they are looking for much more quickly and efficiently. 🔍🎯
 
-  - **Completed Work:**
-      - **Backend:**
-          - New tables named `University`, `Department`, and `ClassLevel` were added to the database.
-          - The `Exam` table was linked to these new academic tables.
-          - Pydantic schemas were created for the new tables (`schemas.py`).
-          - Full CRUD (Create, Read, Update, Delete) functions for University, Department, and Class Level were added to the `crud.py` file.
-          - API endpoints to expose these CRUD operations were grouped under `routers/academics.py`.
-          - The `get_exams_filtered` function was developed to filter exams by university, department, class level, year, semester, and course name (`crud.py`).
-          - The exam creation and retrieval endpoints were updated to include the new academic information.
-      - **Frontend:**
-          - Select/dropdown boxes for University, Department, and Class Level were added to the exam search and filtering interface.
-          - Fields for entering academic information were added to the new exam creation form.
-          - The search results page was updated to correctly display filtered exams.
+---
 
-### Estimated & Completed Story Points
+## ✅ Completed Work
 
-  - **Estimated Points:** 21 Story Points
-  - **Completed Points:** 21 Story Points
+### 🛠 Backend:
+- 🏛 New tables named **University**, **Department**, and **ClassLevel** were added to the database.  
+- 🔗 The **Exam** table was linked to these new academic tables.  
+- 📦 Pydantic schemas were created for the new tables (`schemas.py`).  
+- 🧩 Full CRUD (Create, Read, Update, Delete) functions for **University**, **Department**, and **ClassLevel** were added to the `crud.py` file.  
+- 🌐 API endpoints to expose these CRUD operations were grouped under `routers/academics.py`.  
+- 🧠 The `get_exams_filtered` function was developed to filter exams by **university, department, class level, year, semester**, and **course name** (`crud.py`).  
+- 📝 The **exam creation and retrieval endpoints** were updated to include the new academic information.  
 
-### Estimation Logic
+### 🎨 Frontend:
+- 🔽 Select/dropdown boxes for **University, Department**, and **Class Level** were added to the exam search and filtering interface.  
+- 🧾 Fields for entering academic information were added to the **new exam creation form**.  
+- 🧹 The search results page was updated to correctly display **filtered exams**.  
 
-Story point estimations were made considering the complexity of the work, development time, and potential risks. For example:
+---
 
-  - **New Database Models and Relationships (8 Points):** This was one of the highest-pointed tasks because it affected the existing `Exam` model and required a fundamental change in the database schema.
-  - **CRUD Functions and Endpoints (5 Points):** Although a standard workflow, it was rated as medium complexity because it needed to be written separately for three different models.
-  - **Advanced Filtering Function (5 Points):** This received a high score because it involved a complex query that joins multiple tables and manages multiple parameters.
-  - **Frontend Integration (3 Points):** Connecting the backend endpoints to the frontend and creating the necessary UI components.
+## 🧮 Estimated & Completed Story Points
 
-### Daily Scrum Notes (Example)
+- 🎯 **Estimated Points**: 21 Story Points  
+- 🏁 **Completed Points**: 21 Story Points  
 
-  - **Day 1:** The backend team started working on the new database models (`University`, `Department`, `ClassLevel`). The frontend team prepared mock designs for the filtering components.
-  - **Day 3:** The backend completed the CRUD endpoints and began testing via Swagger. The frontend took the first steps to connect `axios` services to these endpoints.
-  - **Day 5:** The advanced filtering function (`get_exams_filtered`) was completed. Performance tests and various filtering combinations were tried.
-  - **Day 7:** Backend and frontend integration was completed. Minor bugs found during joint testing were fixed. Sprint goals were achieved.
+---
 
-### Sprint Board Updates Screenshot
+## 📐 Estimation Logic
 
-*(You can add a screenshot of your project management tool (Jira, Trello, GitHub Projects, etc.) at the end of the sprint here.)*
+Story point estimations were made considering the **complexity of the work**, **development time**, and **potential risks**. For example:
 
-### Sprint Review
+- 🧱 **New Database Models and Relationships** (8 Points): A high-impact task requiring schema redesign.  
+- 🔁 **CRUD Functions and Endpoints** (5 Points): Medium complexity due to being written for three different models.  
+- 🔍 **Advanced Filtering Function** (5 Points): A complex query joining multiple tables with multiple parameters.  
+- 🖼 **Frontend Integration** (3 Points): Standard UI development and backend connection.  
+
+---
+
+## 🗓 Daily Scrum Notes (Example)
+
+- **Day 1**: 🧱 Backend team started working on new DB models. 🎨 Frontend prepared mockups for filtering UI.  
+- **Day 3**: 🔗 Backend finished CRUD endpoints and tested via Swagger. Frontend began connecting axios services.  
+- **Day 5**: ✅ `get_exams_filtered` function completed. ⚙️ Performed tests with various combinations.  
+- **Day 7**: 🤝 Integration completed. 🐞 Minor bugs fixed during testing. Sprint goals were achieved.  
+
+---
+
+## 🧾 Sprint Board Updates Screenshot
+
+📸 *(You can add a screenshot of your project management tool (Jira, Trello, GitHub Projects, etc.) at the end of the sprint here.)*
+
+---
+
+## 🧪 Sprint Review
 
 At the end-of-sprint review meeting, the following features were presented to stakeholders:
 
-  - A demonstration showed that exams can now be added with specific university, department, and class level information.
-  - The search and filter section on the homepage was tested live. It was confirmed that exams were successfully filtered by selecting different universities and departments.
-  - A technical overview was given on how the new `academics` endpoints work via the Swagger documentation.
-  - Feedback from stakeholders was very positive. It was noted that the ability to quickly access desired exams would significantly improve the user experience.
+- 🏛 Exams can now be added with specific **university, department, and class level** information.  
+- 🔍 The **search and filter section** on the homepage was tested live. Correct filtering confirmed.  
+- 📘 A technical overview was given using **Swagger** documentation.  
+- 💬 **Feedback** was very positive. Stakeholders found the feature helpful for user experience.  
 
-### Sprint Retrospective
+---
 
-  - **What Went Well?**
-      - Communication and coordination between the backend and frontend teams were excellent.
-      - Tasks were clearly defined, and everyone knew their responsibilities.
-      - The new academic structure has built a solid foundation for future features (e.g., course-based statistics).
-  - **What Could Be Improved?**
-      - The database query for the filtering function became more complex than initially expected. More time could have been allocated to optimize this query.
-      - More preliminary research could have been done for some of the `MUI` components used on the frontend.
-  - **Action Items:**
-      - For future sprints, a separate "spike" (research) task will be created for jobs requiring complex queries.
-      - The frontend team will test new components with a small prototype before full implementation.
+## 🔍 Sprint Retrospective
 
+### ✅ What Went Well?
+- 🤝 Communication and coordination between teams were excellent.  
+- 🎯 Tasks were clearly defined; team members were aligned.  
+- 🧱 New academic structure sets foundation for **future features** (e.g., course-based stats).  
+
+### ⚠️ What Could Be Improved?
+- 🧮 Filtering query was more complex than expected; more time needed for optimization.  
+- 🧪 More research could’ve been done for some **MUI components**.  
+
+### 🗂 Action Items:
+- 📌 For future sprints, create a separate **"spike" (research)** task for complex queries.  
+- 🧪 Frontend will **test new components** with prototypes before full implementation.  
 -----
 
 ---
