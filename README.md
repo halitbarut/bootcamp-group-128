@@ -316,17 +316,17 @@ At the end-of-sprint review meeting, the following features were presented to st
 ## 🔍 Sprint Retrospective
 
 ### ✅ What Went Well?
-- 🤝 Communication and coordination between teams were excellent.  
-- 🎯 Tasks were clearly defined; team members were aligned.  
-- 🧱 New academic structure sets foundation for **future features** (e.g., course-based stats).  
+-  Communication and coordination between teams were excellent.  
+-  Tasks were clearly defined; team members were aligned.  
+-  New academic structure sets foundation for **future features** (e.g., course-based stats).  
 
 ### ⚠️ What Could Be Improved?
-- 🧮 Filtering query was more complex than expected; more time needed for optimization.  
-- 🧪 More research could’ve been done for some **MUI components**.  
+-  Filtering query was more complex than expected; more time needed for optimization.  
+-  More research could’ve been done for some **MUI components**.  
 
 ### 🗂 Action Items:
-- 📌 For future sprints, create a separate **"spike" (research)** task for complex queries.  
-- 🧪 Frontend will **test new components** with prototypes before full implementation.  
+-  For future sprints, create a separate **"spike" (research)** task for complex queries.  
+-  Frontend will **test new components** with prototypes before full implementation.  
 -----
 
 ---
@@ -337,65 +337,90 @@ At the end-of-sprint review meeting, the following features were presented to st
 <details>
   <summary><h1>Sprint 3</h1></summary>
 
-## Sprint 3: AI (Gemini) Integration with Smart Question Features
+## 🧠 Sprint 3: AI (Gemini) Integration with Smart Question Features
 
-### Sprint Notes
+### 📝 Sprint Notes
 
-The focus of this sprint was to add smart features to the application by integrating the Google Gemini API. The goal was to allow users to generate new, similar questions from an existing one and to get detailed explanations for a question's solution.
+The focus of this sprint was to add **smart features** to the application by integrating the **Google Gemini API**.  
+🎯 The goal was to allow users to generate new, similar questions from an existing one and to get detailed explanations for a question's solution.
 
-  - **Completed Work:**
-      - **Backend:**
-          - The `google-generativeai` library was added to the project (`requirements.txt`).
-          - [cite\_start]Settings like the Gemini API key and model name were added to the `config.py` file[cite: 1].
-          - The Gemini client was initialized globally in `main.py`.
-          - Pydantic schemas were created for AI requests and responses (`schemas.py`).
-          - An endpoint was developed to generate a new test question (with options and the correct answer) inspired by an existing question.
-          - An endpoint was developed that takes a question, its options, and the correct answer, and explains why that answer is correct.
-      - **Frontend:**
-          - A "Generate Similar Question" button was added to the exam view page.
-          - An "Explain Answer" button was added for users to see after solving a question or while viewing it.
-          - Modals or pop-up windows were designed to display the responses (new question or explanation) from the AI.
+---
 
-### Estimated & Completed Story Points
+### ✅ Completed Work
 
-  - **Estimated Points:** 13 Story Points
-  - **Completed Points:** 13 Story Points
+- **🔧 Backend:**
+  - 📦 The `google-generativeai` library was added to the project (`requirements.txt`).
+  - ⚙️ Settings like the Gemini API key and model name were added to the `config.py` file.
+  - 🌐 The Gemini client was initialized globally in `main.py`.
+  - 📄 Pydantic schemas were created for AI requests and responses (`schemas.py`).
+  - 🧪 An endpoint was developed to generate a **new test question** (with options and the correct answer) inspired by an existing question.
+  - 💬 An endpoint was developed that takes a question, its options, and the correct answer, and **explains** why that answer is correct.
 
-### Estimation Logic
+- **🎨 Frontend:**
+  - ➕ A **"Generate Similar Question"** button was added to the exam view page.
+  - ❓ An **"Explain Answer"** button was added for users to see after solving a question or while viewing it.
+  - 🪟 Modals or pop-up windows were designed to **display AI responses** (new question or explanation).
 
-  - **Gemini API Integration and Configuration (5 Points):** Rated as medium-to-high complexity as it involved a new external service integration and required good prompt engineering to get accurate results.
-  - **Generate New Question Endpoint (4 Points):** Considered medium complexity because it included steps like sending the correct prompt to the Gemini API and parsing the response to fit the data model.
-  - **Explain Answer Endpoint (2 Points):** Scored lower as it required a simpler prompt compared to question generation.
-  - **Frontend Integration (2 Points):** Involved managing two new buttons and the API requests they trigger.
+---
 
-### Daily Scrum Notes (Example)
+### 📊 Estimated & Completed Story Points
 
-  - **Day 1:** Research began on the most effective prompt structures for the Gemini API. The focus was on "How can we get a test question in JSON format, complete with options and a correct answer?"
-  - **Day 2:** The first prototype endpoints were completed. The consistency of the responses was tested. It was observed that the format was sometimes inconsistent, and improvements were made to the prompts.
-  - **Day 4:** The backend endpoints were stabilized. The frontend team confirmed they could successfully retrieve data using these endpoints and started working on the UI.
-  - **Day 6:** The modal windows and buttons on the frontend were completed. End-to-end tests were performed. It was decided that the AI feature was ready for release.
+- **Estimated Points:** 🎯 13 Story Points  
+- **Completed Points:** ✅ 13 Story Points
 
-### Sprint Board Updates Screenshot
+---
 
-*(You can add a screenshot of your project management tool (Jira, Trello, GitHub Projects, etc.) at the end of the sprint here.)*
+### 🧮 Estimation Logic
 
-### Sprint Review
+- 🔌 **Gemini API Integration and Configuration (5 Points):**  
+  Medium-to-high complexity due to external service setup and prompt engineering.
 
-At the end-of-sprint review meeting, the following features were presented with a live demo:
+- ❓ **Generate New Question Endpoint (4 Points):**  
+  Medium complexity — prompt crafting and response parsing required.
 
-  - The "Generate Similar Question" button was clicked on an existing exam question, and it was shown that Gemini instantly generated a new question, options, and a correct answer.
-  - For a different question, the "Explain Answer" button was pressed, and the detailed, clear explanation provided by the AI was read to the stakeholders.
-  - It was emphasized how this feature would help students understand topics more deeply instead of just memorizing. Stakeholders agreed that this feature was a significant innovation that would set the project apart from its competitors.
+- 💡 **Explain Answer Endpoint (2 Points):**  
+  Lower complexity — simpler prompt logic.
 
-### Sprint Retrospective
+- 🖥️ **Frontend Integration (2 Points):**  
+  Button design and API connection; low technical complexity.
 
-  - **What Went Well?**
-      - The team quickly adapted to a new technology, Generative AI, and successfully integrated it into the product.
-      - The experiments with prompt engineering were very effective in achieving the desired results.
-      - The sprint goal was very clear and focused, which allowed the team to progress toward the goal without distractions.
-  - **What Could Be Improved?**
-      - The response times of the external API could be variable. A better "loading" indicator could have been implemented on the frontend for these waiting times.
-      - The costs and usage limits of the Gemini API could have been investigated in more detail at the beginning of the sprint.
-  - **Action Items:**
-      - A standard "loading state" management mechanism will be established on the frontend for all external API calls.
-      - API usage will be logged for cost tracking and reported at regular intervals.
+---
+
+### 📅 Daily Scrum Notes (Example)
+
+- **Day 1:** 🔍 Researched prompt structures for Gemini API. Focus: structured JSON test question with options and answer.
+- **Day 2:** 🧪 Prototype endpoints created. Response consistency tested. Prompt tweaks made.
+- **Day 4:** 🛠️ Backend endpoints finalized. Frontend confirmed API communication works and began UI.
+- **Day 6:** 🖼️ Frontend modals and buttons finished. End-to-end testing successful. Feature marked **ready for release**. 🚀
+
+---
+
+### 📸 Sprint Board Updates Screenshot  
+*(You can add a screenshot of your Jira / Trello / GitHub Projects board here.)*
+
+---
+
+### 🔍 Sprint Review
+
+👩‍💻 In the live demo:
+
+- The **"Generate Similar Question"** button was clicked ➡️ Gemini produced a brand new question with options and answer ✨.
+- The **"Explain Answer"** button was used ➡️ A clear explanation was shown, helping users understand **why** the correct answer was right.
+- 🧠 Stakeholders appreciated how this feature promotes **deep learning** instead of memorization and saw it as a **key innovation**.
+
+---
+
+### 🔄 Sprint Retrospective
+
+- ✅ **What Went Well?**
+  - 🚀 Quick adaptation to Generative AI and successful integration.
+  - 🎯 Prompt engineering experiments paid off.
+  - 🔍 A focused sprint goal kept the team on track.
+
+- ⚠️ **What Could Be Improved?**
+  - 🕒 External API response times varied — loading indicators were lacking.
+  - 💰 Gemini API cost planning could have been done earlier.
+
+- 📌 **Action Items:**
+  - ⏳ Implement standard **loading state** UI for all API calls.
+  - 📊 Log API usage to **track costs** and monitor limits regularly.
