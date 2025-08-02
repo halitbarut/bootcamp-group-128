@@ -224,6 +224,11 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 </details>
 
 
+---
+
+</details>
+
+---
 
 <!-- Gelecek sprintler için bu yapıyı kopyalayıp devam edebilirsiniz. -->
 <!-- 
@@ -233,8 +238,5 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 -->
 
 ---
-
 <details>
   <summary><h1>Sprint 2</h1></summary>
-  ... Sprint 2 içeriği ...
-</details>
