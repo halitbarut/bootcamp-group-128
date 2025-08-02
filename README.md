@@ -433,4 +433,22 @@ The focus of this sprint was to add **smart features** to the application by int
 
 ---
 <details>
-  <summary><h1>Sprint 3</h1></summary>
+  <summary><h1>App Screenshots</h1></summary>
+
+  ![alt text](<Screenshot 2025-08-03 at 00.00.38.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.01.14.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.01.56.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.02.16.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.02.39.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.03.22.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.04.01.png>)
+
+  ![alt text](<Screenshot 2025-08-03 at 00.04.22.png>)
+
+  
