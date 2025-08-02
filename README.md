@@ -396,7 +396,7 @@ The focus of this sprint was to add **smart features** to the application by int
 ---
 
 ### 📸 Sprint Board Updates Screenshot  
-*(You can add a screenshot of your Jira / Trello / GitHub Projects board here.)*
+![alt text](<Screenshot 2025-08-02 at 23.48.32.png>)
 
 ---
 
