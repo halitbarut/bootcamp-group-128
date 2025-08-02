@@ -240,3 +240,143 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 ---
 <details>
   <summary><h1>Sprint 2</h1></summary>
+
+
+
+-----
+
+## Sprint 2: Academic Hierarchy and Advanced Filtering
+
+### Sprint Notes
+
+The main goal of this sprint was to organize exams under an academic structure (University -\> Department -\> Class Level) and to enable users to perform detailed filtering based on these criteria. This was intended to help users find the exams they are looking for much more quickly and efficiently.
+
+  - **Completed Work:**
+      - **Backend:**
+          - New tables named `University`, `Department`, and `ClassLevel` were added to the database.
+          - The `Exam` table was linked to these new academic tables.
+          - Pydantic schemas were created for the new tables (`schemas.py`).
+          - Full CRUD (Create, Read, Update, Delete) functions for University, Department, and Class Level were added to the `crud.py` file.
+          - API endpoints to expose these CRUD operations were grouped under `routers/academics.py`.
+          - The `get_exams_filtered` function was developed to filter exams by university, department, class level, year, semester, and course name (`crud.py`).
+          - The exam creation and retrieval endpoints were updated to include the new academic information.
+      - **Frontend:**
+          - Select/dropdown boxes for University, Department, and Class Level were added to the exam search and filtering interface.
+          - Fields for entering academic information were added to the new exam creation form.
+          - The search results page was updated to correctly display filtered exams.
+
+### Estimated & Completed Story Points
+
+  - **Estimated Points:** 21 Story Points
+  - **Completed Points:** 21 Story Points
+
+### Estimation Logic
+
+Story point estimations were made considering the complexity of the work, development time, and potential risks. For example:
+
+  - **New Database Models and Relationships (8 Points):** This was one of the highest-pointed tasks because it affected the existing `Exam` model and required a fundamental change in the database schema.
+  - **CRUD Functions and Endpoints (5 Points):** Although a standard workflow, it was rated as medium complexity because it needed to be written separately for three different models.
+  - **Advanced Filtering Function (5 Points):** This received a high score because it involved a complex query that joins multiple tables and manages multiple parameters.
+  - **Frontend Integration (3 Points):** Connecting the backend endpoints to the frontend and creating the necessary UI components.
+
+### Daily Scrum Notes (Example)
+
+  - **Day 1:** The backend team started working on the new database models (`University`, `Department`, `ClassLevel`). The frontend team prepared mock designs for the filtering components.
+  - **Day 3:** The backend completed the CRUD endpoints and began testing via Swagger. The frontend took the first steps to connect `axios` services to these endpoints.
+  - **Day 5:** The advanced filtering function (`get_exams_filtered`) was completed. Performance tests and various filtering combinations were tried.
+  - **Day 7:** Backend and frontend integration was completed. Minor bugs found during joint testing were fixed. Sprint goals were achieved.
+
+### Sprint Board Updates Screenshot
+
+*(You can add a screenshot of your project management tool (Jira, Trello, GitHub Projects, etc.) at the end of the sprint here.)*
+
+### Sprint Review
+
+At the end-of-sprint review meeting, the following features were presented to stakeholders:
+
+  - A demonstration showed that exams can now be added with specific university, department, and class level information.
+  - The search and filter section on the homepage was tested live. It was confirmed that exams were successfully filtered by selecting different universities and departments.
+  - A technical overview was given on how the new `academics` endpoints work via the Swagger documentation.
+  - Feedback from stakeholders was very positive. It was noted that the ability to quickly access desired exams would significantly improve the user experience.
+
+### Sprint Retrospective
+
+  - **What Went Well?**
+      - Communication and coordination between the backend and frontend teams were excellent.
+      - Tasks were clearly defined, and everyone knew their responsibilities.
+      - The new academic structure has built a solid foundation for future features (e.g., course-based statistics).
+  - **What Could Be Improved?**
+      - The database query for the filtering function became more complex than initially expected. More time could have been allocated to optimize this query.
+      - More preliminary research could have been done for some of the `MUI` components used on the frontend.
+  - **Action Items:**
+      - For future sprints, a separate "spike" (research) task will be created for jobs requiring complex queries.
+      - The frontend team will test new components with a small prototype before full implementation.
+
+-----
+
+---
+<details>
+  <summary><h1>Sprint 2</h1></summary>
+
+## Sprint 3: AI (Gemini) Integration with Smart Question Features
+
+### Sprint Notes
+
+The focus of this sprint was to add smart features to the application by integrating the Google Gemini API. The goal was to allow users to generate new, similar questions from an existing one and to get detailed explanations for a question's solution.
+
+  - **Completed Work:**
+      - **Backend:**
+          - The `google-generativeai` library was added to the project (`requirements.txt`).
+          - [cite\_start]Settings like the Gemini API key and model name were added to the `config.py` file[cite: 1].
+          - The Gemini client was initialized globally in `main.py`.
+          - Pydantic schemas were created for AI requests and responses (`schemas.py`).
+          - An endpoint was developed to generate a new test question (with options and the correct answer) inspired by an existing question.
+          - An endpoint was developed that takes a question, its options, and the correct answer, and explains why that answer is correct.
+      - **Frontend:**
+          - A "Generate Similar Question" button was added to the exam view page.
+          - An "Explain Answer" button was added for users to see after solving a question or while viewing it.
+          - Modals or pop-up windows were designed to display the responses (new question or explanation) from the AI.
+
+### Estimated & Completed Story Points
+
+  - **Estimated Points:** 13 Story Points
+  - **Completed Points:** 13 Story Points
+
+### Estimation Logic
+
+  - **Gemini API Integration and Configuration (5 Points):** Rated as medium-to-high complexity as it involved a new external service integration and required good prompt engineering to get accurate results.
+  - **Generate New Question Endpoint (4 Points):** Considered medium complexity because it included steps like sending the correct prompt to the Gemini API and parsing the response to fit the data model.
+  - **Explain Answer Endpoint (2 Points):** Scored lower as it required a simpler prompt compared to question generation.
+  - **Frontend Integration (2 Points):** Involved managing two new buttons and the API requests they trigger.
+
+### Daily Scrum Notes (Example)
+
+  - **Day 1:** Research began on the most effective prompt structures for the Gemini API. The focus was on "How can we get a test question in JSON format, complete with options and a correct answer?"
+  - **Day 2:** The first prototype endpoints were completed. The consistency of the responses was tested. It was observed that the format was sometimes inconsistent, and improvements were made to the prompts.
+  - **Day 4:** The backend endpoints were stabilized. The frontend team confirmed they could successfully retrieve data using these endpoints and started working on the UI.
+  - **Day 6:** The modal windows and buttons on the frontend were completed. End-to-end tests were performed. It was decided that the AI feature was ready for release.
+
+### Sprint Board Updates Screenshot
+
+*(You can add a screenshot of your project management tool (Jira, Trello, GitHub Projects, etc.) at the end of the sprint here.)*
+
+### Sprint Review
+
+At the end-of-sprint review meeting, the following features were presented with a live demo:
+
+  - The "Generate Similar Question" button was clicked on an existing exam question, and it was shown that Gemini instantly generated a new question, options, and a correct answer.
+  - For a different question, the "Explain Answer" button was pressed, and the detailed, clear explanation provided by the AI was read to the stakeholders.
+  - It was emphasized how this feature would help students understand topics more deeply instead of just memorizing. Stakeholders agreed that this feature was a significant innovation that would set the project apart from its competitors.
+
+### Sprint Retrospective
+
+  - **What Went Well?**
+      - The team quickly adapted to a new technology, Generative AI, and successfully integrated it into the product.
+      - The experiments with prompt engineering were very effective in achieving the desired results.
+      - The sprint goal was very clear and focused, which allowed the team to progress toward the goal without distractions.
+  - **What Could Be Improved?**
+      - The response times of the external API could be variable. A better "loading" indicator could have been implemented on the frontend for these waiting times.
+      - The costs and usage limits of the Gemini API could have been investigated in more detail at the beginning of the sprint.
+  - **Action Items:**
+      - A standard "loading state" management mechanism will be established on the frontend for all external API calls.
+      - API usage will be logged for cost tracking and reported at regular intervals.
