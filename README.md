@@ -315,18 +315,18 @@ At the end-of-sprint review meeting, the following features were presented to st
 
 ## 🔍 Sprint Retrospective
 
-### ✅ What Went Well?
--  Communication and coordination between teams were excellent.  
--  Tasks were clearly defined; team members were aligned.  
--  New academic structure sets foundation for **future features** (e.g., course-based stats).  
+### ✅ What Went Well
+	•	Communication and coordination between teams were excellent.
+	•	Tasks were clearly defined, and team members worked in harmony.
+	•	The new academic structure laid a solid foundation for future features (e.g., course-based statistics).
 
-### ⚠️ What Could Be Improved?
--  Filtering query was more complex than expected; more time needed for optimization.  
--  More research could’ve been done for some **MUI components**.  
+### ⚠️ What Could Be Improved
+	•	The filtering query was more complex than expected; more time was needed for optimization.
+	•	More preliminary research could have been done for some MUI components.
 
-### 🗂 Action Items:
--  For future sprints, create a separate **"spike" (research)** task for complex queries.  
--  Frontend will **test new components** with prototypes before full implementation.  
+### 🗂 Action Items
+	•	In future sprints, a separate “spike” task should be created for complex queries.
+	•	The frontend team will test new components with prototypes before fully implementing them.
 -----
 
 ---
@@ -419,11 +419,9 @@ The focus of this sprint was to add **smart features** to the application by int
 
 - ⚠️ **What Could Be Improved?**
   - 🕒 External API response times varied — loading indicators were lacking.
-  - 💰 Gemini API cost planning could have been done earlier.
 
 - 📌 **Action Items:**
   - ⏳ Implement standard **loading state** UI for all API calls.
-  - 📊 Log API usage to **track costs** and monitor limits regularly.
 
   -----
 
