@@ -298,7 +298,7 @@ Story point estimations were made considering the **complexity of the work**, **
 
 ## 🧾 Sprint Board Updates Screenshot
 
-📸 *(You can add a screenshot of your project management tool (Jira, Trello, GitHub Projects, etc.) at the end of the sprint here.)*
+![alt text](<Screenshot 2025-08-02 at 23.44.11.png>)
 
 ---
 
