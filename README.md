@@ -425,6 +425,8 @@ The focus of this sprint was to add **smart features** to the application by int
   - ⏳ Implement standard **loading state** UI for all API calls.
   - 📊 Log API usage to **track costs** and monitor limits regularly.
 
+  <details>
+
   ---
 <details>
   <summary><h1>App Screenshots</h1></summary>
