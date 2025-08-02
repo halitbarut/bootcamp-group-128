@@ -435,20 +435,46 @@ The focus of this sprint was to add **smart features** to the application by int
 <details>
   <summary><h1>App Screenshots</h1></summary>
 
+
+### ▪️ 🏫 Select University  
+The user begins by selecting their university to filter relevant exams.
+
+
   ![alt text](<Screenshot 2025-08-03 at 00.00.38.png>)
+
+  ### ▪️ 🧑‍🎓 Select Department  
+Based on the chosen university, the user selects their department.
 
   ![alt text](<Screenshot 2025-08-03 at 00.01.14.png>)
 
+  ### ▪️ 🗂️ Select Class Level  
+The user picks their current academic year (e.g., 1st year, 2nd year) to narrow down the exam list.
+
+
   ![alt text](<Screenshot 2025-08-03 at 00.01.56.png>)
+
+  ### ▪️ 📘 Choose Course  
+From the filtered list, the user selects a course they want to review.
 
   ![alt text](<Screenshot 2025-08-03 at 00.02.16.png>)
 
+  ### ▪️ 📝 View Exam and Questions  
+The user opens an exam related to the selected course and views the included questions.
+
   ![alt text](<Screenshot 2025-08-03 at 00.02.39.png>)
+
+  ### ▪️ ✅ Check the Correct Answer  
+The user can view the correct answer for each question.
 
   ![alt text](<Screenshot 2025-08-03 at 00.03.22.png>)
 
+  ### ▪️ 📖 View Detailed Explanation  
+A step-by-step explanation is shown to help users understand how to solve the question.
+
   ![alt text](<Screenshot 2025-08-03 at 00.04.01.png>)
+
+  ### ▪️ 🤖 Generate Similar Questions with AI  
+The user can generate new, similar questions using AI based on the selected question.
 
   ![alt text](<Screenshot 2025-08-03 at 00.04.22.png>)
 
-  
