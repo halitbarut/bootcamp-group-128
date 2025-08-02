@@ -238,23 +238,3 @@ Upon the completion of Sprint 1, the actual completed story points will be evalu
 -->
 
 
-<details>
-  <summary><h2>Tech Tree</h2></summary>
-
-  <!-- Projenizde kullanılacak teknolojiler netleştikçe bu görseli oluşturup ekleyebilirsiniz. -->
-  <p>Kullanılan teknolojileri gösteren Tech Tree şeması proje ilerledikçe buraya eklenecektir.</p>
-
-
-</details>
-
----
-
-<details>
-  <summary><h2>Lean Canvas</h2></summary>
-  
-  <!-- Projenizin iş modelini özetleyen Lean Canvas görselini buraya ekleyebilirsiniz. -->
-  <p>Projenin iş modelini gösteren Lean Canvas şeması proje ilerledikçe buraya eklenecektir.</p>
-  
-</details>
-
----
