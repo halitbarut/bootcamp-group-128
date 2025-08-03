@@ -476,4 +476,4 @@ The user can generate new, similar questions using AI based on the selected ques
 
   ![alt text](<Screenshot 2025-08-03 at 00.04.22.png>)
 
-  ❤️ Made by Team 128
+  ❤️ Made by Group 128
